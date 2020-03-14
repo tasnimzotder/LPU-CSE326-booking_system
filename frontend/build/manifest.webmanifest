@@ -1,0 +1,22 @@
+{
+    "short_name": "_project_",
+    "name": "_project_",
+    "description": "_project_",
+    "icons": [
+        {
+            "src": "",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "#3367D6",
+    "display": "minimal-ui",
+    "scope": "/",
+    "theme_color": "#3367D6"
+}

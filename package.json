@@ -1,0 +1,35 @@
+{
+  "name": "lpu-cse326-booking_system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.tsx",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tasnimzotder/LPU-CSE326-booking_system.git"
+  },
+  "author": "Tasnim Zotder",
+  "contributors": [
+    {
+      "name": "Souvik Ghosal"
+    },
+    {
+      "name": "Tasnim Zotder",
+      "url": "https://github.com/tasnimzotder"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tasnimzotder/LPU-CSE326-booking_system/issues"
+  },
+  "homepage": "https://github.com/tasnimzotder/LPU-CSE326-booking_system#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "express": "^4.17.1",
+    "firebase": "^7.11.0"
+  }
+}

@@ -20,7 +20,7 @@
     "react-scripts": "3.4.0"
   },
   "devDependencies": {
-    "typescript": "3.3.3"
+    "typescript": "3.8.3"
   },
   "license": "ISC",
   "browserslist": {

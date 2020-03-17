@@ -9,14 +9,20 @@ import {
   FormControlLabel,
   FormGroup,
   MenuItem,
-  Menu
+  Menu,
+  Link
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+  },
+  appbar_root: {
+    background: '#0052D4',
+    background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
+    background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)'
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -59,7 +65,7 @@ function Header() {
         />
       </FormGroup> */}
       <FormGroup>
-        <AppBar position='static'>
+        <AppBar className={classes.appbar_root} position='fixed'>
           <Toolbar>
             <IconButton
               edge='start'

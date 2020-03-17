@@ -1,2 +1,0 @@
-(this.webpackJsonpfrontend=this.webpackJsonpfrontend||[]).push([[0],{3:function(e,n,t){e.exports=t(9)},8:function(e,n,t){},9:function(e,n,t){"use strict";t.r(n);var a=t(0),r=t.n(a),o=t(2),l=t.n(o);t(8);var c=document.getElementById("root");l.a.render(r.a.createElement(r.a.StrictMode,null,r.a.createElement((function(){return r.a.createElement("div",{className:"App"},r.a.createElement("h1",null,"Hello CodeSandbox"),r.a.createElement("h2",null,"Start editing to see some magic happen!"))}),null)),c)}},[[3,1,2]]]);
-//# sourceMappingURL=main.3fe9ba4b.chunk.js.map

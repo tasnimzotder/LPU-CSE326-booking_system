@@ -1,5 +1,5 @@
 var firebase = require('firebase');
-const firebaseConfig = require('./secrets.firebase');
+const firebaseConfig = require('./secrets/secrets.firebase');
 
 require('firebase/auth');
 require('firebase/firestore');

@@ -20,14 +20,12 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path='/'>
-          <div>Home Page</div>
-        </Route>
+        <Route exact path='/' component={Halls} />
         {/* <Route path='/contact'>
           <Contact />
         </Route> */}
         <Route path='/contact' component={Contact} />
-        <Route path='/halls' component={Halls} />
+        {/* <Route path='/halls' component={Halls} /> */}
       </Switch>
     </Router>
   );

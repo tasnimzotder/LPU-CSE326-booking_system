@@ -76,7 +76,8 @@ function Header() {
               <MenuIcon />
             </IconButton>
             <Typography variant='h6' className={classes.title}>
-              Home
+              {/* Home */}
+              <Link href="/" color='inherit' >Home</Link>
             </Typography>
             {auth && (
               <div>

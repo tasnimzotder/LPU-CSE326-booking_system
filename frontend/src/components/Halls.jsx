@@ -20,6 +20,20 @@ import {
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import 'date-fns';
+
+let HallDataX = Array;
+
+fetch(
+  'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/getAll'
+)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
 const HallData = [
   {
@@ -164,9 +178,7 @@ function HallGrid(Data) {
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   const [bookType, setBookType] = React.useState('Placement Drive');
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date('2014-08-18T21:11:54')
-  );
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -224,6 +236,9 @@ function HallGrid(Data) {
               open={open}
               onClose={handleClose}
               aria-labelledby='form-dialog-title'
+              // fullWidth={'sm'}
+              maxWidth='xs'
+              fullWidth='xs'
             >
               <DialogTitle id='form-dialog-title'>
                 Book Auditorium
@@ -234,74 +249,80 @@ function HallGrid(Data) {
               <Divider />
               <DialogContent>
                 <form>
-                  <TextField
-                    autoFocus
-                    variant='outlined'
-                    margin='dense'
-                    label='Department'
-                    placeholder='eg; School of computer science'
-                    fullWidth
-                    required
-                  />
-                  <TextField
-                    variant='outlined'
-                    margin='dense'
-                    label='Purpose'
-                    fullWidth
-                    required
-                  />
-                  <TextField
-                    id=''
-                    fullWidth
-                    variant='outlined'
-                    margin='dense'
-                    label='Person in-charge'
-                    required
-                  />
-                  <TextField
-                    id=''
-                    fullWidth
-                    variant='outlined'
-                    margin='dense'
-                    label='Contact Number'
-                    type='number'
-                    required
-                  />
-                  <TextField
-                    id=''
-                    fullWidth
-                    variant='outlined'
-                    margin='dense'
-                    label='UID'
-                    type='number'
-                    required
-                  />
-                  <TextField
-                    select
-                    variant='outlined'
-                    label='Select Booking Type'
-                    value={bookType}
-                    onChange={handleChange_Type}
-                    margin='dense'
-                  >
-                    {bookTypes.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <KeyboardDatePicker
-                      // margin='dense'
-                      label='Date'
-                      format='MM/dd/yyyy'
-                      value={selectedDate}
-                      onChange={handleDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date'
-                      }}
+                  <Grid container alignItems='flex-start' direction='column'>
+                    <TextField
+                      autoFocus
+                      variant='outlined'
+                      margin='dense'
+                      label='Department'
+                      placeholder='eg; School of computer science'
+                      fullWidth
+                      required
                     />
-                  </MuiPickersUtilsProvider> */}
+                    <TextField
+                      variant='outlined'
+                      margin='dense'
+                      label='Purpose'
+                      fullWidth
+                      required
+                    />
+                    <TextField
+                      id=''
+                      fullWidth
+                      variant='outlined'
+                      margin='dense'
+                      label='Person in-charge'
+                      required
+                    />
+                    <TextField
+                      id=''
+                      fullWidth
+                      variant='outlined'
+                      margin='dense'
+                      label='Contact Number'
+                      type='number'
+                      required
+                    />
+                    <TextField
+                      id=''
+                      fullWidth
+                      variant='outlined'
+                      margin='dense'
+                      label='UID'
+                      type='number'
+                      required
+                    />
+                    <TextField
+                      select
+                      // width="300"
+                      variant='outlined'
+                      label='Select Booking Type'
+                      value={bookType}
+                      onChange={handleDateChange}
+                      margin='dense'
+                    >
+                      {bookTypes.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        margin='dense'
+                        id=''
+                        variant='inline'
+                        disableToolbar
+                        label='Date picker dialog'
+                        format='dd/MM/yyyy'
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date'
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </Grid>
                 </form>
               </DialogContent>
               <DialogActions>

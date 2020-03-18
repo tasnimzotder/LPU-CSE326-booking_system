@@ -6,6 +6,7 @@ import { cyan, pink } from '@material-ui/core/colors';
 
 import Contact from './components/Contact';
 import Halls from './components/Halls';
+import Test from './components/Test';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,7 +26,7 @@ export default function App() {
           <Contact />
         </Route> */}
         <Route path='/contact' component={Contact} />
-        {/* <Route path='/halls' component={Halls} /> */}
+        <Route path='/test' component={Test} />
       </Switch>
     </Router>
   );

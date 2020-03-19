@@ -14,6 +14,16 @@ admin.initializeApp({
 
 let db = admin.firestore();
 
+audiHandle.get('/', (req, res) => {
+  cors(req, res, () => {
+    res
+      .status(200)
+      .send(
+        `<code>Welcome to Auditorium Handle API\nNow you can grab all data at /getAll\nMore in on the way</code>`
+      );
+  });
+});
+
 audiHandle.get('/getAll', (req, res) => {
   cors(req, res, () => {
     db.collection('auditoriums')

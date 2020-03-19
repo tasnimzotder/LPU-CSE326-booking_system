@@ -13,7 +13,8 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  MenuItem
+  MenuItem,
+  LinearProgress
 } from '@material-ui/core';
 import {
   KeyboardDatePicker,
@@ -21,58 +22,6 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
-
-let HallDataX = Array;
-
-fetch(
-  'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/getAll'
-)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-
-const HallData = [
-  {
-    name: 'Santi Devi Mittal Auditorium',
-    available: true,
-    caparity: 1231,
-    location: {
-      block: 34,
-      room: 103,
-      institute: 'LPU'
-    },
-    department: 'School of Computer Science',
-    head: 'Rokibul Singh'
-  },
-  {
-    name: 'Mittal Memorial Auditorium',
-    available: false,
-    caparity: 2130,
-    location: {
-      block: 23,
-      room: 202,
-      institute: 'LPU'
-    },
-    department: 'School of Business & Management',
-    head: 'Shahil Ahmed'
-  },
-  {
-    name: 'Agriculture Department Auditorium',
-    available: true,
-    caparity: 324,
-    location: {
-      block: 27,
-      room: 702,
-      institute: 'LPU'
-    },
-    department: 'School of Agriculture',
-    head: 'Sauvik Ghosh'
-  }
-];
 
 const bookTypes = [
   {
@@ -174,11 +123,44 @@ const useStyle = makeStyles(theme => ({
   }
 }));
 
-function HallGrid(Data) {
+const useFetch = (url, options) => {
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(url, options);
+        const json = await res.json();
+        setResponse(json);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData();
+  }, []);
+  return { response, error };
+};
+
+function HallGridX() {
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
   const [bookType, setBookType] = React.useState('Placement Drive');
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+  const responseData = useFetch(
+    'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/getAll',
+    {}
+  );
+  const allHallData = responseData.response;
+  if (!allHallData) {
+    return (
+      <div>
+        <LinearProgress color='secondary' />
+      </div>
+    );
+  }
+
+  // console.log(allHallData);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -198,145 +180,154 @@ function HallGrid(Data) {
 
   return (
     <div>
-      <Card direction='row' className={classes.hall_card}>
-        <Grid className={classes.img_root}></Grid>
-        <Grid className={classes.details_root}>
-          <Typography noWrap variant='h5' className={classes.text_white}>
-            {Data.name}
-          </Typography>
-          <Chip
-            color={Data.available ? '' : 'secondary'}
-            label={Data.available ? 'Available' : 'Not Available'}
-          />
-          <Divider className={classes.text_divider} />
-          <Typography className={classes.text_white}>
-            <span className={classes.text_grey}>Capacity:</span> {Data.caparity}
-          </Typography>
-          <Typography className={classes.text_white}>
-            <span className={classes.text_grey}>Location:</span> Block{' '}
-            {Data.location['block']} {Data.location['room']},{' '}
-            {Data.location['institute']}
-          </Typography>
-          <Typography noWrap className={classes.text_white}>
-            <span className={classes.text_grey}>Department:</span>{' '}
-            {Data.department}
-          </Typography>
-          <Typography noWrap className={classes.text_white}>
-            <span className={classes.text_grey}>Head:</span> {Data.head}
-          </Typography>
-          <Grid container justify='center'>
-            <Button
-              variant='contained'
-              className={classes.text_btn}
-              onClick={handleClickOpen}
-            >
-              Book Hall
-            </Button>
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              aria-labelledby='form-dialog-title'
-              // fullWidth={'sm'}
-              maxWidth='xs'
-              fullWidth='xs'
-            >
-              <DialogTitle id='form-dialog-title'>
-                Book Auditorium
-                <Typography noWrap variant='subtitle1'>
-                  {Data.name}
-                </Typography>
-              </DialogTitle>
-              <Divider />
-              <DialogContent>
-                <form>
-                  <Grid container alignItems='flex-start' direction='column'>
-                    <TextField
-                      autoFocus
-                      variant='outlined'
-                      margin='dense'
-                      label='Department'
-                      placeholder='eg; School of computer science'
-                      fullWidth
-                      required
-                    />
-                    <TextField
-                      variant='outlined'
-                      margin='dense'
-                      label='Purpose'
-                      fullWidth
-                      required
-                    />
-                    <TextField
-                      id=''
-                      fullWidth
-                      variant='outlined'
-                      margin='dense'
-                      label='Person in-charge'
-                      required
-                    />
-                    <TextField
-                      id=''
-                      fullWidth
-                      variant='outlined'
-                      margin='dense'
-                      label='Contact Number'
-                      type='number'
-                      required
-                    />
-                    <TextField
-                      id=''
-                      fullWidth
-                      variant='outlined'
-                      margin='dense'
-                      label='UID'
-                      type='number'
-                      required
-                    />
-                    <TextField
-                      select
-                      // width="300"
-                      variant='outlined'
-                      label='Select Booking Type'
-                      value={bookType}
-                      onChange={handleDateChange}
-                      margin='dense'
-                    >
-                      {bookTypes.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                      <KeyboardDatePicker
-                        margin='dense'
-                        id=''
-                        variant='inline'
-                        disableToolbar
-                        label='Date picker dialog'
-                        format='dd/MM/yyyy'
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date'
-                        }}
-                      />
-                    </MuiPickersUtilsProvider>
-                  </Grid>
-                </form>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color='primary'>
-                  Cancel
+      {allHallData.map(item => (
+        <div>
+          <Card direction='row' className={classes.hall_card}>
+            <Grid className={classes.img_root}></Grid>
+            <Grid className={classes.details_root}>
+              <Typography noWrap variant='h5' className={classes.text_white}>
+                {item['name']}
+              </Typography>
+              <Chip
+                color={item['availability'] ? '' : 'secondary'}
+                label={item['availability'] ? 'Available' : 'Not Available'}
+              />
+              <Divider className={classes.text_divider} />
+              <Typography className={classes.text_white}>
+                <span className={classes.text_grey}>Capacity:</span>{' '}
+                {item['capacity']}
+              </Typography>
+              <Typography className={classes.text_white}>
+                <span className={classes.text_grey}>Location:</span> Block{' '}
+                {item['location']['block']} {item['location']['room']},{' '}
+                {item['location']['institute']}
+              </Typography>
+              <Typography noWrap className={classes.text_white}>
+                <span className={classes.text_grey}>Department:</span>{' '}
+                {item['department']}
+              </Typography>
+              <Typography noWrap className={classes.text_white}>
+                <span className={classes.text_grey}>Head:</span> {item['head']}
+              </Typography>
+              <Grid container justify='center'>
+                <Button
+                  variant='contained'
+                  className={classes.text_btn}
+                  onClick={handleClickOpen}
+                >
+                  Book Hall
                 </Button>
-                <Button onClick={handleClose} color='primary'>
-                  Book
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Grid>
-        </Grid>
-      </Card>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby='form-dialog-title'
+                  // fullWidth={'sm'}
+                  maxWidth='xs'
+                  fullWidth='xs'
+                >
+                  <DialogTitle id='form-dialog-title'>
+                    Book Auditorium
+                    <Typography noWrap variant='subtitle1'>
+                      {item['name']}
+                    </Typography>
+                  </DialogTitle>
+                  <Divider />
+                  <DialogContent>
+                    <form>
+                      <Grid
+                        container
+                        alignItems='flex-start'
+                        direction='column'
+                      >
+                        <TextField
+                          autoFocus
+                          variant='outlined'
+                          margin='dense'
+                          label='Department'
+                          placeholder='eg; School of computer science'
+                          fullWidth
+                          required
+                        />
+                        <TextField
+                          variant='outlined'
+                          margin='dense'
+                          label='Purpose'
+                          fullWidth
+                          required
+                        />
+                        <TextField
+                          id=''
+                          fullWidth
+                          variant='outlined'
+                          margin='dense'
+                          label='Person in-charge'
+                          required
+                        />
+                        <TextField
+                          id=''
+                          fullWidth
+                          variant='outlined'
+                          margin='dense'
+                          label='Contact Number'
+                          type='number'
+                          required
+                        />
+                        <TextField
+                          id=''
+                          fullWidth
+                          variant='outlined'
+                          margin='dense'
+                          label='UID'
+                          type='number'
+                          required
+                        />
+                        <TextField
+                          select
+                          // width="300"
+                          variant='outlined'
+                          label='Select Booking Type'
+                          value={bookType}
+                          onChange={handleDateChange}
+                          margin='dense'
+                        >
+                          {bookTypes.map(option => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <KeyboardDatePicker
+                            margin='dense'
+                            id=''
+                            variant='inline'
+                            disableToolbar
+                            label='Date picker dialog'
+                            format='dd/MM/yyyy'
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                              'aria-label': 'change date'
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Grid>
+                    </form>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color='primary'>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleClose} color='primary'>
+                      Book
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Grid>
+            </Grid>
+          </Card>
+        </div>
+      ))}
     </div>
   );
 }
@@ -361,13 +352,7 @@ export default function Halls() {
           className={classes.grid_1}
         >
           <Grid className={classes.hall_card_root}>
-            {HallGrid(HallData[0])}
-            {HallGrid(HallData[1])}
-            {HallGrid(HallData[2])}
-            {/* <Card className={classes.hall_card}></Card>
-            <Card className={classes.hall_card}></Card>
-            <Card className={classes.hall_card}></Card>
-            <Card className={classes.hall_card}></Card> */}
+            <HallGridX />
           </Grid>
         </Grid>
         <Grid container alignItems='center' className={classes.grid_2}>

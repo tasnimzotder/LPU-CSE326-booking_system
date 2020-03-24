@@ -141,6 +141,27 @@ const useFetch = (url, options) => {
   return { response, error };
 };
 
+let dataXY = {
+  auth: 'dytsacuyYDV^&DTNXxdbvd(*0',
+  name: 'Fdf',
+  age: 20
+};
+
+fetch(
+  'http://localhost:5001/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
+  {
+    method: 'POST',
+    body: JSON.stringify(dataXY)
+  }
+)
+  .then(data => {
+    console.log(data);
+    console.log('on the way');
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
 function HallGridX() {
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);

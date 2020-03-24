@@ -41,4 +41,18 @@ audiHandle.get('/getAll', (req, res) => {
   });
 });
 
+audiHandle.post('/bookings', (req, res) => {
+  cors(req, res, () => {
+    const data = req.body;
+
+    if (req.body['auth'] == 'dytsacuyYDV^&DTNXxdbvd(*0') {
+      res.status(200).json('well done');
+      console.log(req.body);
+    } else {
+      res.status(400).json(data);
+      console.log('error');
+    }
+  });
+});
+
 exports.audiHandle = functions.https.onRequest(audiHandle);

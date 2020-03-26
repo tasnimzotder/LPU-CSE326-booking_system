@@ -141,26 +141,31 @@ const useFetch = (url, options) => {
   return { response, error };
 };
 
-let dataXY = {
-  auth: 'dytsacuyYDV^&DTNXxdbvd(*0',
-  name: 'Fdf',
-  age: 20
-};
+// let dataXY = {
+//   auth: 'ytsacuyYDV^&DTNXxdbvd(*0',
+//   name: 'Aminul',
+//   born: 2001
+// };
 
-fetch(
-  'http://localhost:5001/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
-  {
-    method: 'POST',
-    body: JSON.stringify(dataXY)
-  }
-)
-  .then(data => {
-    console.log(data);
-    console.log('on the way');
-  })
-  .catch(error => {
-    console.log(error);
-  });
+// fetch(
+//   'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
+//   {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Accept: '*/*',
+//       Connection: 'keep-alive'
+//     },
+//     body: JSON.stringify(dataXY)
+//   }
+// )
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log(`Success: ${data}`);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
 
 function HallGridX() {
   const classes = useStyle();
@@ -169,7 +174,7 @@ function HallGridX() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const responseData = useFetch(
-    'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/getAll',
+    'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/audis',
     {}
   );
   const allHallData = responseData.response;
@@ -189,6 +194,32 @@ function HallGridX() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseSubmit = () => {
+    // event.preventDefault();
+    // setOpen(false);
+
+    const bookingData = {};
+
+    fetch(
+      'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Connection: 'keep-alive'
+        },
+        body: JSON.stringify(bookingData)
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Success: ${data}`);
+      })
+      .then(setOpen(false))
+      .catch(error => console.log(error));
   };
 
   const handleChange_Type = event => {
@@ -261,6 +292,7 @@ function HallGridX() {
                         direction='column'
                       >
                         <TextField
+                          name='department'
                           autoFocus
                           variant='outlined'
                           margin='dense'
@@ -339,7 +371,11 @@ function HallGridX() {
                     <Button onClick={handleClose} color='primary'>
                       Cancel
                     </Button>
-                    <Button onClick={handleClose} color='primary'>
+                    <Button
+                      type='submit'
+                      // onClick={handleCloseSubmit}
+                      color='primary'
+                    >
                       Book
                     </Button>
                   </DialogActions>

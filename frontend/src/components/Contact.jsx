@@ -42,6 +42,49 @@ const useStyle = makeStyles(theme => ({
 
 export default function Contact() {
   const classes = useStyle();
+  let dataC = {
+    token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS'
+  };
+
+  const formChange = event => {
+    event.preventDefault();
+
+    if (event.target.name == 'name') {
+      dataC['name'] = event.target.value;
+    }
+    if (event.target.name == 'email') {
+      dataC['email'] = event.target.value;
+    }
+    if (event.target.name == 'message') {
+      dataC['message'] = event.target.value;
+    }
+    console.log(dataC);
+  };
+
+  const formSubmmit = event => {
+    event.preventDefault();
+    fetch(
+      'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/contacts',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Connection: 'keep-alive'
+        },
+        body: JSON.stringify(dataC)
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        alert(`Message Send`);
+      })
+      .catch(error => {
+        console.log(`Server Error: ${error}`);
+        alert(`Failed to Send`);
+      });
+  };
 
   return (
     <div className={classes.root}>
@@ -56,7 +99,12 @@ export default function Contact() {
           <Card className={classes.card_root}>
             <CardHeader className={classes.card_header} />
             <CardContent>
-              <form method='POST' action='/api/form/contact'>
+              <form
+                onSubmit={formSubmmit}
+                onChange={formChange}
+                // method='POST'
+                // action='http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/contacts'
+              >
                 <Grid
                   container
                   direction='column'

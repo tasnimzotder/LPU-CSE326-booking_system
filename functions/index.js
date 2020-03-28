@@ -5,8 +5,11 @@ const cors = require('cors')({ origin: true });
 
 const contactRoutes = require('./api/routes/contacts');
 const auditoriumRoutes = require('./api/routes/auditoriums');
+const bookingRoutes = require('./api/routes/bookings');
 
 const audiHandle = express();
+const contacts = express();
+// const adminAPI = express();
 
 audiHandle.use(express.urlencoded({ extended: true }));
 
@@ -23,8 +26,9 @@ audiHandle.use((req, res, next) => {
   next();
 });
 
-audiHandle.use('/contacts', contactRoutes);
 audiHandle.use('/audis', auditoriumRoutes);
+audiHandle.use('/bookings', bookingRoutes);
+contacts.use('/', contactRoutes);
 
 audiHandle.get('/', (req, res) => {
   cors(req, res, () => {
@@ -39,41 +43,6 @@ audiHandle.get('/', (req, res) => {
   });
 });
 
-let bookings = [
-  {
-    name: 'Tasnim',
-    born: 2000
-  }
-];
-
-audiHandle.get('/bookings', (req, res) => {
-  cors(req, res, () => {
-    res.status(200).json(bookings);
-  });
-});
-
-audiHandle.post('/bookings', (req, res) => {
-  cors(req, res, () => {
-    // const data = {
-    //   auth: req.body['auth'],
-    //   name: req.body['name'],
-    //   born: req.body['born']
-    // };
-    // console.log(data);
-    // if (data['auth'] === 'ytsacuyYDV^&DTNXxdbvd(*0') {
-    //   delete data.auth;
-    //   bookings.push(data);
-    //   res.status(200).json('well done');
-    // } else {
-    //   res.status(400).json('bad request guy');
-    // }
-    bookings.push(req.body);
-    res.status(200).json('well done');
-    // bookings.push(data);
-    console.log(bookings);
-    // console.log(req.body["name"]);
-    // res.status(200).json('well done');
-  });
-});
-
 exports.audiHandle = functions.https.onRequest(audiHandle);
+exports.contacts = functions.https.onRequest(contacts);
+// exports.adminAPI = functions.https.onRequest(adminAPI);

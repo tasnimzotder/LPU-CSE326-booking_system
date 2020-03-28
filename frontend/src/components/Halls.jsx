@@ -141,32 +141,6 @@ const useFetch = (url, options) => {
   return { response, error };
 };
 
-// let dataXY = {
-//   auth: 'ytsacuyYDV^&DTNXxdbvd(*0',
-//   name: 'Aminul',
-//   born: 2001
-// };
-
-// fetch(
-//   'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
-//   {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Accept: '*/*',
-//       Connection: 'keep-alive'
-//     },
-//     body: JSON.stringify(dataXY)
-//   }
-// )
-//   .then(response => response.json())
-//   .then(data => {
-//     console.log(`Success: ${data}`);
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   });
-
 function HallGridX() {
   const classes = useStyle();
   const [open, setOpen] = React.useState(false);
@@ -196,11 +170,8 @@ function HallGridX() {
     setOpen(false);
   };
 
-  const handleCloseSubmit = () => {
-    // event.preventDefault();
-    // setOpen(false);
-
-    const bookingData = {};
+  const formSubmit = event => {
+    event.preventDefault();
 
     fetch(
       'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
@@ -211,7 +182,17 @@ function HallGridX() {
           Accept: '*/*',
           Connection: 'keep-alive'
         },
-        body: JSON.stringify(bookingData)
+        body: JSON.stringify({
+          token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS',
+          xid: event.target.xid.value,
+          department: event.target.department.value,
+          purpose: event.target.purpose.value,
+          person_in_charge: event.target.person_in_charge.value,
+          contact_number: event.target.contact_number.value,
+          xuid: event.target.xuid.value,
+          booking_type: event.target.booking_type.value,
+          date: event.target.date.value
+        })
       }
     )
       .then(response => response.json())
@@ -220,10 +201,6 @@ function HallGridX() {
       })
       .then(setOpen(false))
       .catch(error => console.log(error));
-  };
-
-  const handleChange_Type = event => {
-    setBookType(event.target.value);
   };
 
   const handleDateChange = date => {
@@ -284,13 +261,16 @@ function HallGridX() {
                     </Typography>
                   </DialogTitle>
                   <Divider />
-                  <DialogContent>
-                    <form>
+                  <form onSubmit={formSubmit}>
+                    <DialogContent>
                       <Grid
                         container
                         alignItems='flex-start'
                         direction='column'
                       >
+                        <input hidden name='xid' value={item.id} />
+                        <input hidden name='name' value={item.name} />
+
                         <TextField
                           name='department'
                           autoFocus
@@ -302,6 +282,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
+                          name='purpose'
                           variant='outlined'
                           margin='dense'
                           label='Purpose'
@@ -309,7 +290,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
-                          id=''
+                          name='person_in_charge'
                           fullWidth
                           variant='outlined'
                           margin='dense'
@@ -317,7 +298,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
-                          id=''
+                          name='contact_number'
                           fullWidth
                           variant='outlined'
                           margin='dense'
@@ -326,7 +307,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
-                          id=''
+                          name='xuid'
                           fullWidth
                           variant='outlined'
                           margin='dense'
@@ -339,8 +320,10 @@ function HallGridX() {
                           // width="300"
                           variant='outlined'
                           label='Select Booking Type'
-                          value={bookType}
-                          onChange={handleDateChange}
+                          // value={bookType}
+                          fullWidth
+                          name='booking_type'
+                          // onChange={handleDateChange}
                           margin='dense'
                         >
                           {bookTypes.map(option => (
@@ -352,7 +335,7 @@ function HallGridX() {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <KeyboardDatePicker
                             margin='dense'
-                            id=''
+                            name='date'
                             variant='inline'
                             disableToolbar
                             label='Date picker dialog'
@@ -365,20 +348,16 @@ function HallGridX() {
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
-                    </form>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color='primary'>
-                      Cancel
-                    </Button>
-                    <Button
-                      type='submit'
-                      // onClick={handleCloseSubmit}
-                      color='primary'
-                    >
-                      Book
-                    </Button>
-                  </DialogActions>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color='primary'>
+                        Cancel
+                      </Button>
+                      <Button type='submit' color='primary'>
+                        Book
+                      </Button>
+                    </DialogActions>
+                  </form>
                 </Dialog>
               </Grid>
             </Grid>

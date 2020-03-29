@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
       .catch(error => {
         console.log(`Error: ${error}`);
         res.status(500).json({
-          error: '${error}'
+          error: `${error}`
         });
       });
   });
@@ -26,15 +26,15 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   cors(req, res, () => {
     const data = {
-      token: req.body['token'],
+      // token: req.body['token'],
       name: req.body['name'],
       email: req.body['email'],
       message: req.body['message'],
       timestamp: admin.firestore.Timestamp.now()
     };
 
-    if (data['token'] == 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS') {
-      delete data.token;
+    if (req.body['token'] == 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS') {
+      // delete data.token;
       //   contacts.push(data);
       db.add(data)
         .then(res.status(200).send({ message: 'Success: request received' }))

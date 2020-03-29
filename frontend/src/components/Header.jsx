@@ -17,18 +17,22 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   appbar_root: {
-    background: '#0052D4',
-    background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
-    background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)'
+    // backgroundColor: '#425265'
+    background: '#0052D4'
+    // background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
+    // background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)'
   },
   menuButton: {
     marginRight: theme.spacing(2)
   },
   title: {
     flexGrow: 1
+  },
+  link_home: {
+    marginRight: 16
   }
 }));
 
@@ -67,17 +71,28 @@ function Header() {
       <FormGroup>
         <AppBar className={classes.appbar_root} position='fixed'>
           <Toolbar>
-            <IconButton
+            {/* <IconButton
               edge='start'
               className={classes.menuButton}
               color='inherit'
               aria-label='menu'
             >
               <MenuIcon />
-            </IconButton>
-            <Typography variant='h6' className={classes.title}>
+            </IconButton> */}
+            <Typography variant='h5' style={{ marginRight: 20 }}>
+              Book Auditorium
+            </Typography>
+            <Typography variant='h4' style={{ marginRight: 20 }}>
+              |
+            </Typography>
+            <Typography variant='button' className={classes.title}>
               {/* Home */}
-              <Link href="/" color='inherit' >Home</Link>
+              <Link className={classes.link_home} href='/' color='inherit'>
+                Home
+              </Link>
+              <Link href='/contact' color='inherit'>
+                Contact
+              </Link>
             </Typography>
             {auth && (
               <div>
@@ -105,8 +120,12 @@ function Header() {
                   open={open}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>Account</MenuItem>
+                  <MenuItem>
+                    <Link href='/admin'>
+                      <Typography variant='button'>Admin</Typography>
+                    </Link>
+                  </MenuItem>
+                  {/* <MenuItem onClick={handleClose}>Account</MenuItem> */}
                 </Menu>
               </div>
             )}

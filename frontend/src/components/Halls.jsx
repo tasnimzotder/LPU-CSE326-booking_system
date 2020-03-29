@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
+import StatsPanel from './StatsPanel';
 import {
   Grid,
   makeStyles,
@@ -14,7 +15,9 @@ import {
   DialogActions,
   TextField,
   MenuItem,
-  LinearProgress
+  LinearProgress,
+  CardHeader,
+  useMediaQuery
 } from '@material-ui/core';
 import {
   KeyboardDatePicker,
@@ -90,21 +93,23 @@ const useStyle = makeStyles(theme => ({
     display: 'flex'
   },
   status_card: {
-    backgroundColor: '#738d9e',
-    height: '75%',
+    // backgroundColor: '#738d9e',
+    height: '66%',
     width: '100%',
     borderRadius: '16px 0 0 16px'
+    // color: '#FFFFFF'
   },
   img_root: {
     width: '40%',
     // height: '100%',
-    backgroundColor: '#889979'
+    backgroundColor: '#252e39'
   },
   details_root: {
     width: '60%',
+    backgroundColor: '#425265',
     // height: '100%',
-    'background-image':
-      'linear-gradient(to right bottom, #4b5b7b, #546381, #5d6b87, #67748e, #707c94)',
+    // 'background-image':
+    //   'linear-gradient(to right bottom, #4b5b7b, #546381, #5d6b87, #67748e, #707c94)',
     padding: 20
   },
   text_white: {
@@ -148,7 +153,7 @@ function HallGridX() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const responseData = useFetch(
-    'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/audis',
+    'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/audis',
     {}
   );
   const allHallData = responseData.response;
@@ -174,7 +179,7 @@ function HallGridX() {
     event.preventDefault();
 
     fetch(
-      'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/bookings',
+      'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/bookings',
       {
         method: 'POST',
         headers: {
@@ -185,6 +190,7 @@ function HallGridX() {
         body: JSON.stringify({
           token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS',
           xid: event.target.xid.value,
+          name: event.target.name.value,
           department: event.target.department.value,
           purpose: event.target.purpose.value,
           person_in_charge: event.target.person_in_charge.value,
@@ -212,7 +218,9 @@ function HallGridX() {
       {allHallData.map(item => (
         <div>
           <Card direction='row' className={classes.hall_card}>
-            <Grid className={classes.img_root}></Grid>
+            <Grid className={classes.img_root}>
+              <img src={item['img']} />
+            </Grid>
             <Grid className={classes.details_root}>
               <Typography noWrap variant='h5' className={classes.text_white}>
                 {item['name']}
@@ -268,8 +276,8 @@ function HallGridX() {
                         alignItems='flex-start'
                         direction='column'
                       >
-                        <input hidden name='xid' value={item.id} />
-                        <input hidden name='name' value={item.name} />
+                        <input hidden name='xid' value={item['id']} />
+                        <input hidden name='name' value={item['name']} />
 
                         <TextField
                           name='department'
@@ -373,7 +381,7 @@ export default function Halls() {
 
   return (
     <div className={classes.root}>
-      <Header />
+      {/* <Header /> */}
       <Grid
         container
         direction='row'
@@ -392,7 +400,11 @@ export default function Halls() {
           </Grid>
         </Grid>
         <Grid container alignItems='center' className={classes.grid_2}>
-          <Card className={classes.status_card}></Card>
+          <Grid className={classes.status_card}>
+            {/* <CardHeader title='Stats'></CardHeader>
+            <Divider className={classes.stats_divider} /> */}
+            <StatsPanel />
+          </Grid>
         </Grid>
       </Grid>
     </div>

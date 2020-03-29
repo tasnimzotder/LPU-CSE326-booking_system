@@ -14,18 +14,32 @@ let bookings = [
 
 router.get('/', (req, res) => {
   cors(req, res, () => {
-    res.status(200).json(bookings);
+    db.get()
+      .then(snapshot => {
+        const data = snapshot.docs.map(doc => {
+          return {
+            id: doc.id,
+            name: doc.data()['name'],
+            bookings: doc.data()['bookings']
+          };
+        });
+        res.status(200).send(data);
+      })
+      .catch(error => {
+        res.status(500).json({
+          error: error
+        });
+        console.log(`Error: ${error}`);
+      });
   });
 });
 
 router.post('/', (req, res) => {
   cors(req, res, () => {
-    // bookings.push(req.body);
-    // res.status(200).json('well done');
-    // console.log(bookings);
     if (req.body['token'] == 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS') {
       let booking = {
         xid: req.body['xid'],
+        name: req.body['name'],
         department: req.body['department'],
         purpose: req.body['purpose'],
         person_in_charge: req.body['person_in_charge'],
@@ -34,14 +48,26 @@ router.post('/', (req, res) => {
         booking_type: req.body['booking_type'],
         date: req.body['date']
       };
-      res.status(200).json({
-        message: 'well done'
-      });
-      console.log(booking);
-      bookings.push(booking);
+
+      // bookings.push(booking);
+      db.doc(booking['xid'])
+        .update({
+          bookings: admin.firestore.FieldValue.arrayUnion(booking)
+        })
+        .then(() => {
+          res.status(200).json({
+            message: 'well done'
+          });
+          console.log(booking);
+        })
+        .catch(error => {
+          res.status(500).json({
+            message: error
+          });
+        });
     } else {
       res.status(500).json({
-        message: 'bad request'
+        message: 'authentication fail'
       });
     }
   });

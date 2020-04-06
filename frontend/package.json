@@ -15,10 +15,15 @@
     "@date-io/date-fns": "^1.3.13",
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.46",
     "@material-ui/pickers": "^3.2.10",
     "date-fns": "^2.11.0",
     "react": "16.13.1",
+<<<<<<< HEAD
+    "react-dom": "^16.13.1",
+=======
     "react-dom": "16.13.1",
+>>>>>>> 1af6be2925ff70a60442af66331cf2623b63af28
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1"
   },

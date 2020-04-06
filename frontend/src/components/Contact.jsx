@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
@@ -8,26 +8,30 @@ import {
   CardHeader,
   CardContent,
   TextField,
-  Button
+  Button,
+  Snackbar
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 // import { red } from '@material-ui/core/colors';
 
 const useStyle = makeStyles(theme => ({
   root: {
-    height: '100vh'
+    height: '100vh',
   },
   grid_root: {
     height: 'calc(100vh - 90px)',
     paddingTop: 64
   },
   card_root: {
-    width: 500
+    width: 500,
+    backgroundColor: '#FFFFFF'
+
   },
   card_header: {
     // backgroundColor: 'red',
-    background: '#0052D4',
-    background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
-    background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
+    background: '#425265',
+    // background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
+    // background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
     height: 60
   },
   form_root: {
@@ -40,12 +44,68 @@ const useStyle = makeStyles(theme => ({
   }
 }));
 
+function Alert(props) {
+  return <MuiAlert  elevation={6} variant='filled' {...props} />;
+}
+
 export default function Contact() {
   const classes = useStyle();
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  let dataC = {
+    token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS'
+  };
+
+  const formSubmmit = event => {
+    event.preventDefault();
+
+    fetch(
+      'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/contacts',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Connection: 'keep-alive'
+        },
+        body: JSON.stringify({
+          token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS',
+          name: event.target.name.value,
+          email: event.target.email.value,
+          message: event.target.message.value
+        })
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+
+        handleClick();
+      })
+      .catch(error => {
+        console.log(`Server Error: ${error}`);
+        alert(`Failed to Send`);
+      });
+  };
 
   return (
     <div className={classes.root}>
-      <Header />
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity='success'>
+          Success - message delivered!
+        </Alert>
+      </Snackbar>
+      {/* <Header /> */}
       <Grid
         container
         className={classes.grid_root}
@@ -56,7 +116,12 @@ export default function Contact() {
           <Card className={classes.card_root}>
             <CardHeader className={classes.card_header} />
             <CardContent>
-              <form method='POST' action='/api/form/contact'>
+              <form
+                onSubmit={formSubmmit}
+                // onChange={formChange}
+                // method='POST'
+                // action='http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/contacts'
+              >
                 <Grid
                   container
                   direction='column'

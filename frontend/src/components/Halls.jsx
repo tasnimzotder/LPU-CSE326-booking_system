@@ -1,5 +1,6 @@
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
+import StatsPanel from './StatsPanel';
 import {
   Grid,
   makeStyles,
@@ -14,7 +15,9 @@ import {
   DialogActions,
   TextField,
   MenuItem,
-  LinearProgress
+  LinearProgress,
+  CardHeader,
+  useMediaQuery
 } from '@material-ui/core';
 import {
   KeyboardDatePicker,
@@ -90,21 +93,23 @@ const useStyle = makeStyles(theme => ({
     display: 'flex'
   },
   status_card: {
-    backgroundColor: '#738d9e',
-    height: '75%',
+    // backgroundColor: '#738d9e',
+    height: '66%',
     width: '100%',
     borderRadius: '16px 0 0 16px'
+    // color: '#FFFFFF'
   },
   img_root: {
     width: '40%',
     // height: '100%',
-    backgroundColor: '#889979'
+    backgroundColor: '#252e39'
   },
   details_root: {
     width: '60%',
+    backgroundColor: '#425265',
     // height: '100%',
-    'background-image':
-      'linear-gradient(to right bottom, #4b5b7b, #546381, #5d6b87, #67748e, #707c94)',
+    // 'background-image':
+    //   'linear-gradient(to right bottom, #4b5b7b, #546381, #5d6b87, #67748e, #707c94)',
     padding: 20
   },
   text_white: {
@@ -148,7 +153,7 @@ function HallGridX() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
   const responseData = useFetch(
-    'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/getAll',
+    'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/audis',
     {}
   );
   const allHallData = responseData.response;
@@ -170,8 +175,38 @@ function HallGridX() {
     setOpen(false);
   };
 
-  const handleChange_Type = event => {
-    setBookType(event.target.value);
+  const formSubmit = event => {
+    event.preventDefault();
+
+    fetch(
+      'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/bookings',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Connection: 'keep-alive'
+        },
+        body: JSON.stringify({
+          token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS',
+          xid: event.target.xid.value,
+          name: event.target.name.value,
+          department: event.target.department.value,
+          purpose: event.target.purpose.value,
+          person_in_charge: event.target.person_in_charge.value,
+          contact_number: event.target.contact_number.value,
+          xuid: event.target.xuid.value,
+          booking_type: event.target.booking_type.value,
+          date: event.target.date.value
+        })
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(`Success: ${data}`);
+      })
+      .then(setOpen(false))
+      .catch(error => console.log(error));
   };
 
   const handleDateChange = date => {
@@ -183,7 +218,9 @@ function HallGridX() {
       {allHallData.map(item => (
         <div>
           <Card direction='row' className={classes.hall_card}>
-            <Grid className={classes.img_root}></Grid>
+            <Grid className={classes.img_root}>
+              <img src={item['img']} />
+            </Grid>
             <Grid className={classes.details_root}>
               <Typography noWrap variant='h5' className={classes.text_white}>
                 {item['name']}
@@ -232,14 +269,18 @@ function HallGridX() {
                     </Typography>
                   </DialogTitle>
                   <Divider />
-                  <DialogContent>
-                    <form>
+                  <form onSubmit={formSubmit}>
+                    <DialogContent>
                       <Grid
                         container
                         alignItems='flex-start'
                         direction='column'
                       >
+                        <input hidden name='xid' value={item['id']} />
+                        <input hidden name='name' value={item['name']} />
+
                         <TextField
+                          name='department'
                           autoFocus
                           variant='outlined'
                           margin='dense'
@@ -249,6 +290,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
+                          name='purpose'
                           variant='outlined'
                           margin='dense'
                           label='Purpose'
@@ -256,7 +298,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
-                          id=''
+                          name='person_in_charge'
                           fullWidth
                           variant='outlined'
                           margin='dense'
@@ -264,7 +306,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
-                          id=''
+                          name='contact_number'
                           fullWidth
                           variant='outlined'
                           margin='dense'
@@ -273,7 +315,7 @@ function HallGridX() {
                           required
                         />
                         <TextField
-                          id=''
+                          name='xuid'
                           fullWidth
                           variant='outlined'
                           margin='dense'
@@ -286,8 +328,10 @@ function HallGridX() {
                           // width="300"
                           variant='outlined'
                           label='Select Booking Type'
-                          value={bookType}
-                          onChange={handleDateChange}
+                          // value={bookType}
+                          fullWidth
+                          name='booking_type'
+                          // onChange={handleDateChange}
                           margin='dense'
                         >
                           {bookTypes.map(option => (
@@ -299,7 +343,7 @@ function HallGridX() {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <KeyboardDatePicker
                             margin='dense'
-                            id=''
+                            name='date'
                             variant='inline'
                             disableToolbar
                             label='Date picker dialog'
@@ -312,16 +356,16 @@ function HallGridX() {
                           />
                         </MuiPickersUtilsProvider>
                       </Grid>
-                    </form>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color='primary'>
-                      Cancel
-                    </Button>
-                    <Button onClick={handleClose} color='primary'>
-                      Book
-                    </Button>
-                  </DialogActions>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color='primary'>
+                        Cancel
+                      </Button>
+                      <Button type='submit' color='primary'>
+                        Book
+                      </Button>
+                    </DialogActions>
+                  </form>
                 </Dialog>
               </Grid>
             </Grid>
@@ -337,7 +381,7 @@ export default function Halls() {
 
   return (
     <div className={classes.root}>
-      <Header />
+      {/* <Header /> */}
       <Grid
         container
         direction='row'
@@ -356,7 +400,11 @@ export default function Halls() {
           </Grid>
         </Grid>
         <Grid container alignItems='center' className={classes.grid_2}>
-          <Card className={classes.status_card}></Card>
+          <Grid className={classes.status_card}>
+            {/* <CardHeader title='Stats'></CardHeader>
+            <Divider className={classes.stats_divider} /> */}
+            <StatsPanel />
+          </Grid>
         </Grid>
       </Grid>
     </div>

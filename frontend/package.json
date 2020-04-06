@@ -19,7 +19,11 @@
     "@material-ui/pickers": "^3.2.10",
     "date-fns": "^2.11.0",
     "react": "16.13.1",
+<<<<<<< HEAD
     "react-dom": "^16.13.1",
+=======
+    "react-dom": "16.13.1",
+>>>>>>> 1af6be2925ff70a60442af66331cf2623b63af28
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1"
   },

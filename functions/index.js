@@ -6,6 +6,7 @@ const cors = require('cors')({ origin: true });
 const contactRoutes = require('./api/routes/contacts');
 const auditoriumRoutes = require('./api/routes/auditoriums');
 const bookingRoutes = require('./api/routes/bookings');
+const statsRouter = require('./api/routes/stats');
 
 const audiHandle = express();
 const contacts = express();
@@ -41,6 +42,7 @@ contacts.use((req, res, next) => {
 
 audiHandle.use('/audis', auditoriumRoutes);
 audiHandle.use('/bookings', bookingRoutes);
+audiHandle.use('/stats', statsRouter);
 contacts.use('/', contactRoutes);
 
 audiHandle.get('/', (req, res) => {
@@ -51,7 +53,7 @@ audiHandle.get('/', (req, res) => {
       'POST /contacts': 'post a contact query',
       'GET /audis': 'get all auditorium data',
       'GET /audis/bookings': 'get all auditirium booking data',
-      'POST /audis/bookings': 'booking an auditorium'
+      'POST /audis/bookings': 'booking an auditorium',
     });
   });
 });

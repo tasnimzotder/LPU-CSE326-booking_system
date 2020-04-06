@@ -5,26 +5,52 @@ import {
   CardHeader,
   Divider,
   CardContent,
-  Typography
+  Typography,
 } from '@material-ui/core';
 
-const useStyle = makeStyles(theme => ({
+const useStyle = makeStyles((theme) => ({
   status_card: {
     backgroundColor: '#425265',
     height: '100%',
     width: '100%',
     borderRadius: '16px 0 0 16px',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   stats_divider: {
     backgroundColor: '#FFFFFF',
     width: '90%',
-    marginLeft: '5%'
-  }
+    marginLeft: '5%',
+  },
 }));
+
+const useFetch = (url, options) => {
+  const [response, setResponse] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(url, options);
+        const json = await res.json();
+        setResponse(json);
+      } catch (error) {
+        setError(error);
+      }
+    };
+    fetchData();
+  }, []);
+  return { response, error };
+};
 
 export default function StatsPanel() {
   const classes = useStyle();
+
+  const stats = useFetch(
+    'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/stats',
+    {}
+  ).response;
+
+  console.log(stats);
+  console.log(stats['count']);
 
   return (
     <div>
@@ -35,7 +61,7 @@ export default function StatsPanel() {
           <Typography>
             Total Audi:{' '}
             <Typography variant='h3' style={{ display: 'inline' }}>
-              6
+              {/* {stats['total_audis']} */}
             </Typography>{' '}
           </Typography>
           <br />

@@ -1,6 +1,6 @@
 {
   "name": "lpu-cse326-booking_system",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "repository": {
     "type": "git",
@@ -9,14 +9,15 @@
   "author": "Tasnim Zotder",
   "contributors": [
     {
-      "name": "Souvik Ghosal"
+      "name": "Souvik Ghosal",
+      "url": "https://github.com/Souvik-Ghosal"
     },
     {
       "name": "Tasnim Zotder",
       "url": "https://github.com/tasnimzotder"
     }
   ],
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tasnimzotder/LPU-CSE326-booking_system/issues"
   },

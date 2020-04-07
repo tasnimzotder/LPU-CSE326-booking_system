@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  link_home: {
+  links: {
     marginRight: 16,
   },
 }));
@@ -90,16 +90,28 @@ function Header() {
             </Typography>
             <Typography variant='button' className={classes.title}>
               {/* Home */}
-              <Link className={classes.link_home} href='/' color='inherit'>
+              <Link className={classes.links} href='/' color='inherit'>
                 Home
               </Link>
-              <Link href='/contact' color='inherit'>
+              <Link className={classes.links} href='/contact' color='inherit'>
                 Contact
+              </Link>
+              <Link
+                className={classes.links}
+                href='/privacy-policy'
+                color='inherit'
+              >
+                Privacy Policy
               </Link>
             </Typography>
             {auth && (
               <div>
-                <IconButton
+                <Link href='/admin'>
+                  <Typography variant='button' style={{ color: 'white' }}>
+                    Admin Panel
+                  </Typography>
+                </Link>
+                {/* <IconButton
                   aria-label='account of current user'
                   aria-controls='menu-appbar'
                   aria-haspopup='true'
@@ -128,8 +140,8 @@ function Header() {
                       <Typography variant='button'>Admin</Typography>
                     </Link>
                   </MenuItem>
-                  {/* <MenuItem onClick={handleClose}>Account</MenuItem> */}
-                </Menu>
+                  <MenuItem onClick={handleClose}>Account</MenuItem>
+                </Menu> */}
               </div>
             )}
           </Toolbar>

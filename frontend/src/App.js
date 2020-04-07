@@ -10,9 +10,13 @@ import Test from './components/Test';
 import Admin from './components/admin/Admin';
 import Header from './components/Header';
 
+import GithubIcon from './components/GithubIcon';
+import PrivacyPolicy from './components/PrivacyPolicy';
+
 import AdminProfile from './components/admin/AdminProfile';
 import AdminContacts from './components/admin/AdminContacts';
 import AdminBookings from './components/admin/AdminBookings';
+// import NewAudi from './components/admin/NewAudi';
 
 const theme = createMuiTheme({
   palette: {
@@ -34,7 +38,10 @@ export default function App() {
         <Route exact path='/admin' component={AdminProfile} />
         <Route exact path='/admin/contacts' component={AdminContacts} />
         <Route exact path='/admin/bookings' component={AdminBookings} />
+        {/* <Route exact path='/admin/new-audi' component={NewAudi} /> */}
+        <Route exact path='/privacy-policy' component={PrivacyPolicy} />
       </Switch>
+      <GithubIcon />
     </BrowserRouter>
   );
 }

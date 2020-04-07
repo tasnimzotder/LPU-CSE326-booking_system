@@ -1,5 +1,5 @@
 import React from 'react';
-// import Header from './Header';
+import Header from './Header';
 import {
   Grid,
   makeStyles,
@@ -60,17 +60,21 @@ const useStyle = makeStyles((theme) => ({
   },
   details_root: {
     width: '60%',
-    backgroundColor: '#425265',
+    // backgroundColor: '#425265',
+    backgroundColor: '#b2ebf2',
     // height: '100%',
     // 'background-image':
     //   'linear-gradient(to right bottom, #4b5b7b, #546381, #5d6b87, #67748e, #707c94)',
     padding: 20,
   },
   text_white: {
-    color: 'white',
+    // color: 'white',
+  },
+  text_orange: {
+    color: '#dd2c00',
   },
   text_grey: {
-    color: '#ffa1a1',
+    color: '#ff5722',
   },
   text_divider: {
     marginTop: 12,
@@ -93,7 +97,7 @@ const useFetch = (url, options) => {
       }
     };
     fetchData();
-  }, []);
+  }, [url]);
   return { response, error };
 };
 
@@ -115,6 +119,7 @@ function HallGridX() {
 
   return (
     <div>
+      <Header />
       {allHallData.map((item) => (
         <div>
           <Card direction='row' className={classes.hall_card}>
@@ -122,7 +127,7 @@ function HallGridX() {
               <img src={item['img']} />
             </Grid>
             <Grid className={classes.details_root}>
-              <Typography noWrap variant='h5' className={classes.text_white}>
+              <Typography noWrap variant='h5' className={classes.text_orange}>
                 {item['name']}
               </Typography>
               <Chip

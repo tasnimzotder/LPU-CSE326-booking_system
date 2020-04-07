@@ -18,11 +18,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginBottom: 60,
   },
   appbar_root: {
-    // backgroundColor: '#425265'
+    backgroundColor: '#252e39',
     // background: '#0052D4',
-    background: '#00bcd4',
     // background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
     // background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)'
   },
@@ -34,10 +34,14 @@ const useStyles = makeStyles((theme) => ({
   },
   link_home: {
     marginRight: 16,
+    color: 'red',
+  },
+  link_btn: {
+    marginLeft: 20,
   },
 }));
 
-function Header() {
+function AdminHeader() {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorE1, setAnchorE1] = React.useState(null);
@@ -81,7 +85,7 @@ function Header() {
               <MenuIcon />
             </IconButton> */}
             <Typography variant='h5' style={{ marginRight: 20 }}>
-              <Link href='/' style={{ color: 'white' }}>
+              <Link href='/' className={classes.link_home}>
                 Book Auditorium
               </Link>
             </Typography>
@@ -90,11 +94,29 @@ function Header() {
             </Typography>
             <Typography variant='button' className={classes.title}>
               {/* Home */}
-              <Link className={classes.link_home} href='/' color='inherit'>
-                Home
+              <Link href='/admin' color='inherit'>
+                Profile
               </Link>
-              <Link href='/contact' color='inherit'>
-                Contact
+              <Link
+                className={classes.link_btn}
+                href='admin/new-audi'
+                color='inherit'
+              >
+                New Audi
+              </Link>
+              <Link
+                className={classes.link_btn}
+                href='/admin/contacts'
+                color='inherit'
+              >
+                Contacts
+              </Link>
+              <Link
+                className={classes.link_btn}
+                href='/admin/bookings'
+                color='inherit'
+              >
+                Bookings
               </Link>
             </Typography>
             {auth && (
@@ -139,4 +161,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default AdminHeader;

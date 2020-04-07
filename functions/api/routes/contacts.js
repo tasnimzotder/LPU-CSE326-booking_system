@@ -8,16 +8,22 @@ const db = admin.firestore().collection('contacts');
 router.get('/', (req, res) => {
   cors(req, res, () => {
     db.get()
-      .then(snapshot => {
-        const data = snapshot.docs.map(doc => {
-          return { id: doc.id, ...doc.data() };
+      .then((snapshot) => {
+        const data = snapshot.docs.map((doc) => {
+          return {
+            id: doc.id,
+            name: doc.data()['name'],
+            email: doc.data()['email'],
+            message: doc.data()['message'],
+            date: doc.createTime.toDate(),
+          };
         });
         res.status(200).send(data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(`Error: ${error}`);
         res.status(500).json({
-          error: `${error}`
+          error: `${error}`,
         });
       });
   });
@@ -30,7 +36,7 @@ router.post('/', (req, res) => {
       name: req.body['name'],
       email: req.body['email'],
       message: req.body['message'],
-      timestamp: admin.firestore.Timestamp.now()
+      timestamp: admin.firestore.Timestamp.now(),
     };
 
     if (req.body['token'] == 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS') {
@@ -38,15 +44,15 @@ router.post('/', (req, res) => {
       //   contacts.push(data);
       db.add(data)
         .then(res.status(200).send({ message: 'Success: request received' }))
-        .catch(error => {
+        .catch((error) => {
           console.log(`Error: database error > ${error}`);
           res.status(500).json({
-            message: 'Error: database error'
+            message: 'Error: database error',
           });
         });
     } else {
       res.status(500).json({
-        message: 'Error: authentication error'
+        message: 'Error: authentication error',
       });
     }
   });

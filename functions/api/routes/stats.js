@@ -16,16 +16,25 @@ let observer = admin
       ) {
         let total_audis = 0;
         let total_seats = 0;
-        let available_seats = 0;
+        let total_bookings = 0;
 
         admin
           .firestore()
           .collection('auditoriums')
           .get()
           .then((snapshot) => {
+            total_audis = snapshot.size;
             snapshot.docs.map((doc) => {
               if (doc.data()['capacity']) {
-                total_seats = total_seats + Number(doc.data()['capacity']);
+                total_seats += Number(doc.data()['capacity']);
+              }
+
+              if (doc.data()['bookings']) {
+                let bookings = doc.data()['bookings'];
+                total_bookings += bookings.length;
+                bookings.map((docX) => {
+                  //   console.log(docX['date']);
+                });
               }
             });
           })
@@ -33,8 +42,11 @@ let observer = admin
             db.doc('5WQvwWobkc10PxFG0Ui7').update({
               count: admin.firestore.FieldValue.increment(+1),
               total_seats: total_seats,
+              total_audis: total_audis,
+              total_bookings: total_bookings,
             });
-            console.log('capacity', total_seats);
+            // console.log('capacity', total_seats);
+            // console.log('audis', total_audis);
           });
 
         // console.log(change.type, change.doc.data());
@@ -48,7 +60,7 @@ router.get('/', (req, res) => {
     db.get()
       .then((snapshot) => {
         data = snapshot.docs.map((doc) => {
-          return doc.data();
+          return { ...doc.data() };
         });
       })
       .then(() => {

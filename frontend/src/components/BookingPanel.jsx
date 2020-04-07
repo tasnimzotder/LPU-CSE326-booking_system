@@ -11,11 +11,14 @@ import {
   Divider,
   TextField,
   MenuItem,
+  Snackbar,
 } from '@material-ui/core';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
+import MuiAlert from '@material-ui/lab/Alert';
+
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 
@@ -56,12 +59,29 @@ const bookTypes = [
   },
 ];
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
+}
+
 export default function BookingPanel(props) {
   const classes = useStyle();
 
   const [open, setOpen] = React.useState(false);
   const [bookType, setBookType] = React.useState('Placement Drive');
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [openSnack, setOpenSnack] = React.useState(false);
+
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === 'clickway') {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,14 +123,27 @@ export default function BookingPanel(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Success: ${data}`);
+        console.log(`Success`);
+        handleClickSnack();
       })
       .then(setOpen(false))
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        alert('ERROR!');
+      });
   };
 
   return (
     <div>
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={6000}
+        onClose={handleCloseSnack}
+      >
+        <Alert onClose={handleCloseSnack} severity='success'>
+          Success - booking completed!
+        </Alert>
+      </Snackbar>
       <Grid container justify='center'>
         <Button
           variant='contained'

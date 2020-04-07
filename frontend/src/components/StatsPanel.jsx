@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   makeStyles,
   Card,
@@ -10,7 +10,8 @@ import {
 
 const useStyle = makeStyles((theme) => ({
   status_card: {
-    backgroundColor: '#425265',
+    // backgroundColor: '#425265',
+    backgroundColor: '#ff5722',
     height: '100%',
     width: '100%',
     borderRadius: '16px 0 0 16px',
@@ -23,77 +24,68 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-const useFetch = (url, options) => {
-  const [response, setResponse] = React.useState(null);
-  const [error, setError] = React.useState(null);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(url, options);
-        const json = await res.json();
-        setResponse(json);
-      } catch (error) {
-        setError(error);
-      }
-    };
-    fetchData();
-  }, []);
-  return { response, error };
+const useFetchData = (url) => {
+  const [stats, setStats] = useState({});
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then(setStats);
+  }, [count]);
+
+  return stats;
 };
 
 export default function StatsPanel() {
   const classes = useStyle();
 
-  const stats = useFetch(
-    'http://localhost:5000/lpu-cse-326-booking-system/us-central1/audiHandle/stats',
-    {}
-  ).response;
-
-  console.log(stats);
-  console.log(stats['count']);
+  const statsData = useFetchData(
+    'https://us-central1-lpu-cse-326-booking-system.cloudfunctions.net/audiHandle/stats'
+  );
+  // console.log(statsData);
 
   return (
     <div>
       <Card className={classes.status_card}>
-        <CardHeader title='Stats'></CardHeader>
+        <CardHeader title='Today s Stats'></CardHeader>
         <Divider className={classes.stats_divider} />
         <CardContent>
           <Typography>
             Total Audi:{' '}
             <Typography variant='h3' style={{ display: 'inline' }}>
-              {/* {stats['total_audis']} */}
+              {statsData['total_audis']}
             </Typography>{' '}
           </Typography>
           <br />
           <Typography>
             Total Seats:{' '}
             <Typography variant='h4' style={{ display: 'inline' }}>
-              6456
+              {statsData['total_seats']}
             </Typography>{' '}
           </Typography>
           <Typography>
-            Available Seats:{' '}
+            Total Bookings:{' '}
             <Typography variant='h4' style={{ display: 'inline' }}>
-              4054
+              {statsData['total_bookings']}
             </Typography>{' '}
           </Typography>
           <br />
           <Typography>
             Institute:{' '}
             <Typography variant='h5' style={{ display: 'inline' }}>
-              LPU
+              {statsData['institute']}
             </Typography>{' '}
           </Typography>
           <Typography>
             Next Holiday:{' '}
             <Typography variant='h5' style={{ display: 'inline' }}>
-              Apr 15 2020
+              {statsData['next_holiday']}
             </Typography>{' '}
           </Typography>
           <Typography>
             Last Holiday:{' '}
             <Typography variant='h5' style={{ display: 'inline' }}>
-              Mar 13 2020
+              {statsData['last_holiday']}
             </Typography>{' '}
           </Typography>
         </CardContent>

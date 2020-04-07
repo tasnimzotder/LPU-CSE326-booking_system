@@ -1,5 +1,5 @@
 import React from 'react';
-// import Header from './Header';
+import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
@@ -22,7 +22,7 @@ const useStyle = makeStyles((theme) => ({
   },
   card_root: {
     width: 500,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#b2ebf2',
   },
   card_header: {
     // backgroundColor: 'red',
@@ -102,7 +102,7 @@ export default function Contact() {
           Success - message delivered!
         </Alert>
       </Snackbar>
-      {/* <Header /> */}
+      <Header />
       <Grid
         container
         className={classes.grid_root}

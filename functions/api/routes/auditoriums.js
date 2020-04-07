@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
         return {
           id: doc.id,
           name: doc.data()['name'],
-          avilability: doc.data()['availability'],
+          availability: doc.data()['availability'],
           capacity: doc.data()['capacity'],
           department: doc.data()['department'],
           head: doc.data()['head'],

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # LPU-CSE326-booking_system
 
 <div style="text-align: center; font-size: 256%; background-color: #e1e6ed">
@@ -7,3 +6,4 @@
 </div>
 
 ___
+

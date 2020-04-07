@@ -1,51 +1,48 @@
 import React from 'react';
-// import Header from './Header';
+import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Grid,
   Card,
-  // CardActionArea,
   CardHeader,
   CardContent,
   TextField,
   Button,
-  Snackbar
+  Snackbar,
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-// import { red } from '@material-ui/core/colors';
 
-const useStyle = makeStyles(theme => ({
+const useStyle = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
   grid_root: {
     height: 'calc(100vh - 90px)',
-    paddingTop: 64
+    paddingTop: 64,
   },
   card_root: {
     width: 500,
-    backgroundColor: '#FFFFFF'
-
+    backgroundColor: '#b2ebf2',
   },
   card_header: {
     // backgroundColor: 'red',
     background: '#425265',
     // background: '-webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
     // background: 'linear-gradient(to right, #6FB1FC, #4364F7, #0052D4)',
-    height: 60
+    height: 60,
   },
   form_root: {
-    textAlign: 'right'
+    textAlign: 'right',
   },
   text_field: {
     marginBottom: 20,
     backgroundColor: '#e9ecf5',
-    borderRadius: 4
-  }
+    borderRadius: 4,
+  },
 }));
 
 function Alert(props) {
-  return <MuiAlert  elevation={6} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 export default function Contact() {
@@ -63,10 +60,10 @@ export default function Contact() {
   };
 
   let dataC = {
-    token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS'
+    token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS',
   };
 
-  const formSubmmit = event => {
+  const formSubmmit = (event) => {
     event.preventDefault();
 
     fetch(
@@ -76,23 +73,23 @@ export default function Contact() {
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
-          Connection: 'keep-alive'
+          Connection: 'keep-alive',
         },
         body: JSON.stringify({
           token: 'sT=4#b&I1rArUP3Es5&wr4$h2cR#FrlS',
           name: event.target.name.value,
           email: event.target.email.value,
-          message: event.target.message.value
-        })
+          message: event.target.message.value,
+        }),
       }
     )
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
 
         handleClick();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(`Server Error: ${error}`);
         alert(`Failed to Send`);
       });
@@ -105,7 +102,7 @@ export default function Contact() {
           Success - message delivered!
         </Alert>
       </Snackbar>
-      {/* <Header /> */}
+      <Header />
       <Grid
         container
         className={classes.grid_root}

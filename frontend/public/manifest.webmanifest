@@ -1,7 +1,7 @@
 {
-    "short_name": "_project_",
-    "name": "_project_",
-    "description": "_project_",
+    "short_name": "Book Auditorium",
+    "name": "Book Auditorium",
+    "description": "A web app for booking auditorium and hall",
     "icons": [
         {
             "src": "",

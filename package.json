@@ -1,7 +1,7 @@
 {
   "name": "lpu-cse326-booking_system",
   "version": "1.1.0",
-  "description": "",
+  "description": "A web app for booking auditorium and hall",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tasnimzotder/LPU-CSE326-booking_system.git"

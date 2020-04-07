@@ -6,10 +6,12 @@ const cors = require('cors')({ origin: true });
 const contactRoutes = require('./api/routes/contacts');
 const auditoriumRoutes = require('./api/routes/auditoriums');
 const bookingRoutes = require('./api/routes/bookings');
+const statsRouter = require('./api/routes/stats');
+const adminRouter = require('./api/routes/admin')
 
 const audiHandle = express();
 const contacts = express();
-// const adminAPI = express();
+const adminAPI = express();
 
 audiHandle.use(express.urlencoded({ extended: true }));
 
@@ -41,7 +43,9 @@ contacts.use((req, res, next) => {
 
 audiHandle.use('/audis', auditoriumRoutes);
 audiHandle.use('/bookings', bookingRoutes);
+audiHandle.use('/stats', statsRouter);
 contacts.use('/', contactRoutes);
+adminAPI.use('/', adminRouter);
 
 audiHandle.get('/', (req, res) => {
   cors(req, res, () => {
@@ -51,11 +55,11 @@ audiHandle.get('/', (req, res) => {
       'POST /contacts': 'post a contact query',
       'GET /audis': 'get all auditorium data',
       'GET /audis/bookings': 'get all auditirium booking data',
-      'POST /audis/bookings': 'booking an auditorium'
+      'POST /audis/bookings': 'booking an auditorium',
     });
   });
 });
 
 exports.audiHandle = functions.https.onRequest(audiHandle);
 exports.contacts = functions.https.onRequest(contacts);
-// exports.adminAPI = functions.https.onRequest(adminAPI);
+exports.adminAPI = functions.https.onRequest(adminAPI);

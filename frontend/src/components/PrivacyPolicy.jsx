@@ -17,8 +17,8 @@ export default function PrivacyPolicy() {
       </Typography>
       <Grid style={{ padding: '4% 16%', color: '#303030', fontWeight: 300 }}>
         <Typography>
-          Tasnim Zotder built the Book Auditorium app as an Open Source app.
-          This SERVICE is provided by Tasnim Zotder at no cost and is intended
+          We built the Book Auditorium web app as an Open Source app.
+          This SERVICE is provided by We at no cost and is intended
           for use as is.
         </Typography>
         <br />

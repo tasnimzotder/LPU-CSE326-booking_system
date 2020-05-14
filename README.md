@@ -33,5 +33,3 @@ $ serve -s build/
 # Authors
 
 * ## Tasnim Zotder
-* ## Souvik Ghosal
-* ## Aditya Kashyap

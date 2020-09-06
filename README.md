@@ -1,8 +1,8 @@
 # Auditorium and Hall Booking Website
 
 <div style="text-align: center; font-size: 256%; background-color: #e1e6ed">
-    <span><a href="./Assets/Report.docx">Report</a></span><br/>
-    <span><a href="./Assets/Synopsis.pdf">Synopsis</a></span>
+    <span><a href="./Reports/Report.docx">Report</a></span><br/>
+    <span><a href="./Reports/Synopsis.pdf">Synopsis</a></span>
 </div>
 
 ___
